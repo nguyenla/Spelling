@@ -1,0 +1,7 @@
+[Activity]
+name = Spelling
+activity_version = 6
+bundle_id = org.sugarlabs.Spelling
+exec = sugar-activity activity.MasterController
+icon = activity-helloworld
+license = GPLv2+
