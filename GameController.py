@@ -3,7 +3,8 @@ from GameView import GameView
 import sys
 from gi.repository import Gtk
 from gi.repository import Gdk
-#import espeak
+import espeak
+#from Status import Status
 #from Speak import Speak
 
 class GameController:
@@ -15,7 +16,8 @@ class GameController:
 
 	sugarActivity.connect("key-press-event", self.readKey)
 	
-
+	#self.status = Status()
+	self.espeak = espeak.SpeechManager()
         # Functions for the buttons
         self.left_button_signal = self.view.left_button.connect("clicked", self.play_word)
         self.right_button_signal = self.view.right_button.connect("clicked", self.next_word, "Next Word")
@@ -52,9 +54,10 @@ class GameController:
     # This function plays the audio for the current word
     def play_word(self, widget, data = None):
         currentWord = self.level_words[self.currentIndex]
-        speak = Speak(currentWord)
-        speak.start()
-        speak.stop()
+	self.espeak.say_text(currentWord)
+        #speak = Speak(currentWord)
+        #speak.start()
+        #speak.stop()
 
     # This function gets the next word to be played and display it on the screen
     def next_word(self, widget, data=None):
@@ -72,7 +75,7 @@ class GameController:
             if self.score >= 0: # if the player scores well enough
                 # finalText = "LEVEL COMPLETED. You scored " + str(self.score) + " out of " + str(len(self.level_words) * 10)
                 finalText = "LEVEL COMPLETED."
-                os.system("espeak '{}'".format(finalText))
+                #os.system("espeak '{}'".format(finalText))
                 self.review_level()
 
             else: # if the player skips too many words
