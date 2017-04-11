@@ -1,5 +1,6 @@
 from gi.repository import Gtk
 from TypeBox import TypeBox
+from NavBar import NavBar
 
 class GameView:
     def __init__(self, parent):
@@ -28,6 +29,9 @@ class GameView:
         # A VBox to pack the labels and the typebox vertically
         self.vbox = Gtk.VBox(False, 0)
         self.vbox.show()
+
+	self.navBar = NavBar(True)
+        self.vbox.pack_start(self.navBar, False, False, 0)
 
         self.vbox.pack_start(self.scoreLabel, True, True, 0)
         self.vbox.pack_start(self.label, True, True, 0)

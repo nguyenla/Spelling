@@ -1,9 +1,10 @@
 from gi.repository import Gtk
+from gi.repository import Gdk
+from NavBar import NavBar
 
 class HomeView:
     def __init__(self, parent):
-        self.gameName = Gtk.Label("")
-        self.gameName.set_markup("<span size='18000' color='#F5F6F7'><b>SPELL IT!</b></span>")
+       
 	
         # Creates a new button with the label "Hello World".
         self.button = Gtk.Button("Game 1")
@@ -33,19 +34,11 @@ class HomeView:
         # #set the button's style to the one you created
         # self.nextButton.set_style(style)
 
-        self.vbox = Gtk.VBox(True, 0)
+        self.vbox = Gtk.VBox(False, 0)
         self.vbox.show()
 
-
-        eb = Gtk.EventBox()
-        eb.add(self.gameName)
-        eb.set_size_request(150,50)
-        #eb.modify_bg(Gtk.STATE_NORMAL, Gtk.gdk.color_parse("#2F343F"))
-
-        valign = Gtk.Alignment(xscale = 1.0, yscale=1.0)
-        valign.add(eb)
-        self.vbox.pack_start(valign, True, True, 0)
-        valign.show()
+	self.navBar = NavBar(False)
+        self.vbox.pack_start(self.navBar, False, False, 0)
 
         self.selectGame = Gtk.Label("")
         self.selectGame.set_size_request(150,30)
@@ -57,9 +50,6 @@ class HomeView:
         self.vbox.pack_start(valign2, True, True, 0)
         valign2.show()
 
-        #self.vbox.pack_start(eb, False, False, 0)
-        self.gameName.show()
-        eb.show()
         self.hbox = Gtk.HBox(False, 0)
         self.hbox.pack_start(self.button, False, False, 10)
         self.hbox.pack_start(self.button2, False, False, 10)
@@ -72,6 +62,7 @@ class HomeView:
         self.button.show()
         self.button2.show()
         self.button3.show()
+	print("I am here")
 
 	parent.set_canvas(self.vbox)
 	

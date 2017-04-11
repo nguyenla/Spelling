@@ -1,26 +1,29 @@
 import os
 from GameView import GameView
+from HomeView import HomeView
+import HomeController
 import sys
 from gi.repository import Gtk
 from gi.repository import Gdk
 import espeak
-#from Status import Status
-#from Speak import Speak
 
 class GameController:
-    def __init__(self, view, sugarActivity):
+    def __init__(self, view, parent):
         # Engine to produce sound for any word
         # self.es = espeak.ESpeak()
 	self.NUMBER_OF_LEVELS = 2
         self.view = view
 
-	sugarActivity.connect("key-press-event", self.readKey)
+	self.parent = parent
+
+	self.parent.connect("key-press-event", self.readKey)
 	
 	#self.status = Status()
 	self.espeak = espeak.SpeechManager()
         # Functions for the buttons
         self.left_button_signal = self.view.left_button.connect("clicked", self.play_word)
         self.right_button_signal = self.view.right_button.connect("clicked", self.next_word, "Next Word")
+	self.back_button_signal = self.view.navBar.button.connect("clicked", self.home_page)
 
 
         # Fields of the controller
@@ -178,6 +181,10 @@ class GameController:
         print("Restarting level")
         self.level -= 1
         self.next_level()
+
+    def home_page(self, button):
+        self.view = HomeView(self.parent)
+	self.controller = HomeController.HomeController(self.view, self.parent)
 
 
     def delete_event(self, widget, event, data=None):

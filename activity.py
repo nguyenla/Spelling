@@ -30,7 +30,7 @@ from sugar3.activity.widgets import ShareButton
 from sugar3.activity.widgets import DescriptionItem
 from HomeView import HomeView
 from GameView import GameView
-from GameController import GameController
+from HomeController import HomeController
 
 class MasterController(activity.Activity):
     """HelloWorldActivity class as specified in activity.info"""
@@ -77,12 +77,5 @@ class MasterController(activity.Activity):
 
         # Create a game view
         self.view = HomeView(self)
+	self.controller = HomeController(self.view, self)
 
-	self.view.button.connect_object("clicked", self.render_game1, "")
-        #self.view.button2.connect_object("clicked", self.render_game2, "")
-        #self.view.button3.connect_object("clicked", self.render_game3, "")
-
-    # Render the first game
-    def render_game1(self, button):
-        self.view = GameView(self)
-        self.controller = GameController(self.view, self)
