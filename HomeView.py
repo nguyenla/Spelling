@@ -10,14 +10,20 @@ class HomeView:
         self.button = Gtk.Button("Game 1")
         self.button.set_can_focus(False)
         self.button.set_size_request(150,150)
+	self.button.set_name("HomeView_Game1Button")
+	#for child in self.button.get_children():
+	 #   child.set_label("<span size='10000' color='#2F343F'><b>SPELLING Spell the word listening to audio.</b></span>")
+	  #  child.set_use_markup(True)
 
         self.button2 = Gtk.Button("Game 2")
         self.button2.set_can_focus(False)
         self.button2.set_size_request(150,150)
+	self.button2.set_name("HomeView_Game2Button")
 
         self.button3 = Gtk.Button("Game 3")
         self.button3.set_can_focus(False)
         self.button3.set_size_request(150,150)
+	self.button3.set_name("HomeView_Game3Button")
 
         # image = gtk.Image()
         # image.set_from_file("background.png")
@@ -41,6 +47,7 @@ class HomeView:
         self.vbox.pack_start(self.navBar, False, False, 0)
 
         self.selectGame = Gtk.Label("")
+	self.selectGame.set_name("HomeView_SelectGame")
         self.selectGame.set_size_request(150,30)
         self.selectGame.set_markup("<span size='25000' color='#2F343F'><b><u>SELECT A GAME</u></b></span>")
         self.selectGame.show()
@@ -51,10 +58,10 @@ class HomeView:
         valign2.show()
 
         self.hbox = Gtk.HBox(False, 0)
-        self.hbox.pack_start(self.button, False, False, 10)
-        self.hbox.pack_start(self.button2, False, False, 10)
-        self.hbox.pack_start(self.button3, False, False, 10)
-        self.vbox.pack_start(self.hbox, False, False, 10)
+        self.hbox.pack_start(self.button, True, True, 10)
+        self.hbox.pack_start(self.button2, True, True, 10)
+        self.hbox.pack_start(self.button3, True, True, 10)
+        self.vbox.pack_start(self.hbox, True, True, 10)
         self.hbox.show()
 
 

@@ -1,0 +1,40 @@
+/* CSS for NavBar.py */
+
+#NavBar_BackButton{
+	background: #2F343F;
+	border-radius: 0px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+}
+
+#HomeView_SelectGame{
+	background: #fffff1;
+}
+
+#HomeView_Game1Button{
+	background: #2F343F;
+	border-radius: 0px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+	background:url("buttonBackground.jpg")
+}
+
+#HomeView_Game2Button{
+	background: #2F343F;
+	border-radius: 0px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+	background:url("buttonBackground.jpg")
+}
+
+#HomeView_Game3Button{
+	background: #2F343F;
+	border-radius: 0px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+	background:url("buttonBackground.jpg")
+}
