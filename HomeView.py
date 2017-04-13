@@ -11,19 +11,32 @@ class HomeView:
         self.button.set_can_focus(False)
         self.button.set_size_request(150,150)
 	self.button.set_name("HomeView_Game1Button")
-	#for child in self.button.get_children():
-	 #   child.set_label("<span size='10000' color='#2F343F'><b>SPELLING Spell the word listening to audio.</b></span>")
-	  #  child.set_use_markup(True)
+	for child in self.button.get_children():
+	    child.set_label("<span size='15000'><b>SPELLING \n\n <span size='12000'>Spell the word by listening to audio.</span></b></span>")
+	    child.set_use_markup(True)
+	    child.set_line_wrap(True)
+	    child.set_justify(Gtk.Justification.CENTER)
 
         self.button2 = Gtk.Button("Game 2")
         self.button2.set_can_focus(False)
         self.button2.set_size_request(150,150)
 	self.button2.set_name("HomeView_Game2Button")
+	for child in self.button2.get_children():
+	    child.set_label("<span size='15000'><b>MISSPELLED WORD \n\n <span size='12000'>Find a misspelled word from a given list.</span></b></span>")
+	    child.set_use_markup(True)
+	    child.set_line_wrap(True)
+	    child.set_justify(Gtk.Justification.CENTER)
 
         self.button3 = Gtk.Button("Game 3")
         self.button3.set_can_focus(False)
         self.button3.set_size_request(150,150)
 	self.button3.set_name("HomeView_Game3Button")
+	for child in self.button3.get_children():
+	    child.set_label("<span size='16000'><b>DEFINITION MATCHING \n\n <span size='12000'>Select a word for a given definition.</span></b></span>")
+	    child.set_use_markup(True)
+	    child.set_line_wrap(True)
+	    child.set_justify(Gtk.Justification.CENTER)
+	    child.set_justify(Gtk.Justification.CENTER)
 
         # image = gtk.Image()
         # image.set_from_file("background.png")
