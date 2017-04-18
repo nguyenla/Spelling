@@ -1,20 +1,18 @@
-#!/usr/bin/env python
-
-import pygtk
-pygtk.require('2.0')
-import gtk
-import os
+from gi.repository import Gtk
+from gi.repository import Gdk
+from NavBar import NavBar
 from Game2View import Game2View
-from RootView import RootView
-import sys
+import HomeController
 from HomeView import HomeView
+import sys
 from random import randint
 from random import shuffle
 import time
 
 class Game2Controller:
-    def __init__(self, view):
+    def __init__(self, view, parent):
         self.view = view
+	self.parent = parent
 
         self.view.skip.connect_object("clicked", self.skip_press, "SKIP")
         self.view.next.connect_object("clicked", self.generate_level, "NEXT LEVEL")
@@ -22,7 +20,7 @@ class Game2Controller:
 	self.view.word2.connect_object("clicked", self.check, "1")
 	self.view.word3.connect_object("clicked", self.check, "2")
 	self.view.word4.connect_object("clicked", self.check, "3")
-        self.view.vbox.connect('expose-event', self.addImage)
+	self.view.navBar.button.connect("clicked", self.home_page)
 
         # Fields of the controller
         self.level = 0
@@ -32,20 +30,28 @@ class Game2Controller:
         self.correctList = []
 	self.incorrectWord = ""
 	self.roundList = []
+	self.gameOver = False
 
         # Set the game up for the first level
         self.generate_level("")
 
     #Generate level by loading the level's incorrect words & make a round
+    #If there are no levels left, the game will end
     def generate_level(self, widget):
 	self.reveal_screen()
 	self.skipsLeft = 3
-	self.view.skipLabel.set_text("Skips left:" + str(self.skipsLeft))
+	self.view.skip.set_label("SKIP\n(" + str(self.skipsLeft) + " Left)")
+	for child in self.view.skip.get_children():
+	    child.set_line_wrap(True)
+	    child.set_justify(Gtk.Justification.CENTER)
 	self.level = self.level + 1
 	self.load_level_correct()
 	self.load_level_incorrect()
-	self.make_round()
-
+	if(self.gameOver == True):
+	    self.end_game()
+	else:
+	    self.make_round()
+	
 
     #Function populates the 4 buttons for the round (3 correct, 1 incorrect)
     def make_round(self):
@@ -89,12 +95,15 @@ class Game2Controller:
 	#else, keep the incorrect word in the level and make new round
 	else:
 	   self.view.resultLabel.set_text("Wrong! Try again!")
+	   self.updateScore(-2)
 	   self.make_round()
 
     #Function updates score
     def updateScore(self, increment):
         self.score += increment
-        self.view.scoreLabel.set_text("SCORE: " + str(self.score))
+	if self.score < 0:
+	    self.score = 0
+        self.view.scoreLabel.set_markup("<span size='15000'><b>SCORE: " + str(self.score) + "</b></span>")
 
     #Function occurs when the skip button is pressed
     def skip_press(self, widget):
@@ -102,13 +111,13 @@ class Game2Controller:
 	if self.skipsLeft > 0:
             self.make_round()
 	    self.skipsLeft = self.skipsLeft - 1
-	    self.view.skipLabel.set_text("Skips left:" + str(self.skipsLeft))
+	    self.view.skip.set_label("SKIP\n(" + str(self.skipsLeft) + " Left)")
 	    self.view.resultLabel.set_text("")
 	#if none left, disable button
 	if self.skipsLeft == 0:
 	    self.view.skip.set_sensitive(False)
 
-    #temporary level over function
+    #Function hides everything on screen and prompts user to advance to next level
     def level_over(self):
 	self.view.skip.hide()
         self.view.word1.hide()
@@ -116,12 +125,12 @@ class Game2Controller:
         self.view.word3.hide()
         self.view.word4.hide()
         self.view.scoreLabel.hide()
-	self.view.skipLabel.hide()
 
-	self.view.levelLabel.set_text("LEVEL " + str(self.level+1))
+	self.view.levelLabel.set_markup("<span size='15000'><b>LEVEL: " + str(self.level + 1)+ "</b></span>")
         self.view.resultLabel.set_text("Ready for the next level?")
 	self.view.next.show()
 
+    #Function shows everything needed for new level
     def reveal_screen(self):
 	self.view.skip.show()
 	self.view.word1.show()
@@ -129,10 +138,21 @@ class Game2Controller:
         self.view.word3.show()
         self.view.word4.show()
         self.view.scoreLabel.show()
-	self.view.skipLabel.show()
 
         self.view.resultLabel.set_text("")
 	self.view.next.hide()
+
+    #Function hides everything and alerts the user that the game is over	
+    def end_game(self):
+	self.view.skip.hide()
+        self.view.word1.hide()
+        self.view.word2.hide()
+        self.view.word3.hide()
+        self.view.word4.hide()
+        self.view.scoreLabel.hide()
+
+	self.view.levelLabel.set_text("CONGRATULATIONS!")
+        self.view.resultLabel.set_text("You've reached the end of the game!")
 
 #Text File Methods
     # This function takes in a file name and load all the words from the corresponding file
@@ -146,40 +166,22 @@ class Game2Controller:
 	return wordlist
 
     # This function takes in a file name and load all the words from the corresponding file
+    # Error catch is for the end of game
     def load_level_correct(self):
-        self.correctList = self.load_file("Game2-CorrectLevel" + str(self.level))
+	try:
+            self.correctList = self.load_file("Game2-CorrectLevel" + str(self.level))
+	    print(self.correctList)
+	except IOError:
+	    self.gameOver = True
 
     # This function takes in a file name and load all the words from the corresponding file
+    # Error catch is for the end of game
     def load_level_incorrect(self):
-        self.incorrectList = self.load_file("Game2-IncorrectLevel" + str(self.level))
+	try:
+            self.incorrectList = self.load_file("Game2-IncorrectLevel" + str(self.level))
+	except IOError:
+	    self.gameOver = True
 
-
-#General Methods
-    def addImage(self, widget, event):
-        path = 'background.jpg'
-        pixbuf = gtk.gdk.pixbuf_new_from_file(path)
-        widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL], pixbuf, 0, 0, 0,0)
-
-    def delete_event(self, widget, event, data=None):
-        # If you return FALSE in the "delete_event" signal handler,
-        # GTK will emit the "destroy" signal. Returning TRUE means
-        # you don't want the window to be destroyed.
-        # This is useful for popping up 'are you sure you want to quit?'
-        # type dialogs.
-        print "delete event occurred"
-
-        # Change FALSE to TRUE and the main window will not be destroyed
-        # with a "delete_event".
-        return False
-
-    def destroy(self, widget, data=None):
-        print "destroy signal occurred"
-        gtk.main_quit()
-
-
-def main():
-    game = Game2Controller()
-    gtk.main()
-
-
-if __name__ == "__main__": main()
+    def home_page(self, button):
+        self.view = HomeView(self.parent)
+	self.controller = HomeController.HomeController(self.view, self.parent)

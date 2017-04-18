@@ -5,6 +5,7 @@
 	border-radius: 0px;
 	border-width: 2px;
 	box-shadow: 0 0 0 0;
+	border-color: #C0C0C0;
 	font-size: 13px;
 }
 
@@ -37,4 +38,62 @@
 	box-shadow: 0 0 0 0;
 	font-size: 13px;
 	background:url("buttonBackground.jpg")
+}
+
+#Game2View_Word1Button{
+	background: #2F343F;
+	border-radius: 2px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+}
+
+#Game2View_Word2Button{
+	background: #2F343F;
+	border-radius: 2px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+}
+
+#Game2View_Word3Button{
+	background: #2F343F;
+	border-radius: 2px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+}
+
+#Game2View_Word4Button{
+	background: #2F343F;
+	border-radius: 2px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+}
+
+#Game2View_SkipButton{
+	background: #2F343F;
+	border-radius: 15px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 15px;
+}
+
+#Game2View_LevelLabel{
+	background-color: #000000;
+	border-radius: 0px;
+	border-width: 0px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+	color: #FFFFFF;
+}
+
+#Game2View_ScoreLabel{
+	background-color: #000000;
+	border-radius: 0px;
+	border-width: 0px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+	color: #FFFFFF;
 }

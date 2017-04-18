@@ -36,7 +36,6 @@ class HomeView:
 	    child.set_use_markup(True)
 	    child.set_line_wrap(True)
 	    child.set_justify(Gtk.Justification.CENTER)
-	    child.set_justify(Gtk.Justification.CENTER)
 
         # image = gtk.Image()
         # image.set_from_file("background.png")

@@ -17,6 +17,7 @@
 """HelloWorld Activity: A case study for developing an activity."""
 
 from gi.repository import Gtk
+from gi.repository import Gdk
 import logging
 
 from gettext import gettext as _
@@ -74,6 +75,19 @@ class MasterController(activity.Activity):
 
         self.set_toolbar_box(toolbar_box)
         toolbar_box.show()
+
+	# Load the css file
+	style_provider = Gtk.CssProvider()
+	css_file = open("style.css", 'rb')
+
+	# Read the css code and close the file 
+	css = css_file.read()
+	css_file.close()
+	
+	# Load the css for rendering
+	style_provider.load_from_data(css)
+	Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),style_provider, 
+	Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
         # Create a game view
         self.view = HomeView(self)
