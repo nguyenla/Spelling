@@ -11,20 +11,18 @@ class GameController:
     def __init__(self, view, parent):
         # Engine to produce sound for any word
         # self.es = espeak.ESpeak()
-	self.NUMBER_OF_LEVELS = 2
+        self.NUMBER_OF_LEVELS = 2
         self.view = view
 
-	self.parent = parent
+        self.parent = parent
 
-	self.parent.connect("key-press-event", self.readKey)
-	
-	#self.status = Status()
-	self.espeak = espeak.SpeechManager()
+        self.parent.connect("key-press-event", self.readKey)
+
+        self.espeak = espeak.SpeechManager()
         # Functions for the buttons
         self.left_button_signal = self.view.left_button.connect("clicked", self.play_word)
         self.right_button_signal = self.view.right_button.connect("clicked", self.next_word, "Next Word")
-	self.back_button_signal = self.view.navBar.button.connect("clicked", self.home_page)
-
+        self.back_button_signal = self.view.navBar.button.connect("clicked", self.home_page)
 
         # Fields of the controller
         self.level = 0
@@ -53,11 +51,11 @@ class GameController:
         else:
             self.view.resultLabel.set_text("INCORRECT!")
 
-	
+
     # This function plays the audio for the current word
     def play_word(self, widget, data = None):
         currentWord = self.level_words[self.currentIndex]
-	self.espeak.say_text(currentWord)
+        self.espeak.say_text(currentWord)
         #speak = Speak(currentWord)
         #speak.start()
         #speak.stop()
@@ -145,7 +143,7 @@ class GameController:
         self.typed = "" # reset the typed word
         self.view.vbox.add(self.view.typeBox.hbox)
         self.view.typeBox.createTextBoxes(len(self.level_words[0]))
-        self.view.label.set_text("LEVEL " + str(self.level))
+        self.view.levelLabel.set_text("LEVEL " + str(self.level))
         self.view.vbox.remove(self.view.hbox)
         self.view.vbox.add(self.view.hbox)
 
@@ -184,7 +182,7 @@ class GameController:
 
     def home_page(self, button):
         self.view = HomeView(self.parent)
-	self.controller = HomeController.HomeController(self.view, self.parent)
+        self.controller = HomeController.HomeController(self.view, self.parent)
 
 
     def delete_event(self, widget, event, data=None):

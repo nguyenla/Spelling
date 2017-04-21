@@ -97,3 +97,21 @@
 	font-size: 13px;
 	color: #FFFFFF;
 }
+
+#Game1View_LevelLabel{
+	background-color: #000000;
+	border-radius: 0px;
+	border-width: 0px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+	color: #FFFFFF;
+}
+
+#Game1View_ScoreLabel{
+	background-color: #000000;
+	border-radius: 0px;
+	border-width: 0px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+	color: #FFFFFF;
+}
