@@ -127,7 +127,9 @@ class Game2Controller:
         self.view.scoreLabel.hide()
 
 	self.view.levelLabel.set_markup("<span size='15000'><b>LEVEL: " + str(self.level + 1)+ "</b></span>")
-        self.view.resultLabel.set_text("Ready for the next level?")
+        self.view.instructionLabel.set_markup("<span size='17000'><b>Ready for the next level?</b></span>")
+	self.view.skipHbox.remove(self.view.skip)
+	self.view.skipHbox.add(self.view.next)
 	self.view.next.show()
 
     #Function shows everything needed for new level
@@ -140,7 +142,10 @@ class Game2Controller:
         self.view.scoreLabel.show()
 
         self.view.resultLabel.set_text("")
-	self.view.next.hide()
+	self.view.instructionLabel.set_markup("<span size='17000'><b>SELECT THE MISSPELLED WORD</b></span>")
+	self.view.skipHbox.remove(self.view.next)
+	self.view.skipHbox.add(self.view.skip)
+	self.view.skip.show()
 
     #Function hides everything and alerts the user that the game is over	
     def end_game(self):

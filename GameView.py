@@ -14,11 +14,13 @@ class GameView:
         self.left_button = Gtk.Button("Play Word")
         self.left_button.set_can_focus(False)
         self.left_button.set_size_request(20,30)
+	self.left_button.set_name("Game1View_LeftButton")
 
         # The "NEXT" button
         self.right_button = Gtk.Button("SKIP")
         self.right_button.set_can_focus(False)
-        self.left_button.set_size_request(20,30)
+        self.right_button.set_size_request(20,30)
+	self.right_button.set_name("Game1View_RightButton")
 
         # The boxes for the letters
         self.typeBox = TypeBox()
@@ -47,18 +49,18 @@ class GameView:
         self.levelHbox = Gtk.HBox(False, 0)
         self.levelHbox.pack_start(self.levelLabel, False, False, 0)
         self.levelHbox.pack_end(self.scoreLabel, False, False, 0)
-        self.vbox.pack_start(self.levelHbox, True, True, 0)
+        self.vbox.pack_start(self.levelHbox, False, False, 0)
         #self.vbox.add(self.levelHbox)
 
         #self.vbox.pack_start(self.scoreLabel, True, True, 0)
         #self.vbox.pack_start(self.levelLabel, True, True, 0)
-        self.vbox.pack_start(self.typeBox.hbox, True, True, 0)
+        self.vbox.pack_start(self.typeBox.hbox, True, True, 40)
         self.vbox.pack_start(self.resultLabel, True, True, 0)
 
         # A HBox to keep the two buttons "PLAY" and "NEXT"
         self.hbox = Gtk.HBox(False, 0)
-        self.hbox.pack_start(self.left_button, True, True, 0)
-        self.hbox.pack_start(self.right_button, True, True, 0)
+        self.hbox.pack_start(self.left_button, True, True, 8)
+        self.hbox.pack_start(self.right_button, True, True, 8)
 
         self.vbox.add(self.hbox)
         self.hbox.show()

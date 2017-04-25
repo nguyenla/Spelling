@@ -80,6 +80,14 @@
 	font-size: 15px;
 }
 
+#Game2View_NextButton{
+	background: #2F343F;
+	border-radius: 15px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 15px;
+}
+
 #Game2View_LevelLabel{
 	background-color: #000000;
 	border-radius: 0px;
@@ -114,4 +122,26 @@
 	box-shadow: 0 0 0 0;
 	font-size: 13px;
 	color: #FFFFFF;
+}
+
+#Game1View_LeftButton{
+	background: #2F343F;
+	border-radius: 5px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 18px;
+}
+
+#Game1View_RightButton{
+	background: #2F343F;
+	border-radius: 5px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 18px;
+}
+
+#TypeBox_TextField{
+	background-color: #fffff0;
+	border-radius: 2px;
+	font: Sans 20;
 }

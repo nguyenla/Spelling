@@ -54,11 +54,13 @@ class TypeBox(Gtk.HBox):
     # This method shows all the existing textfields.
     def showBoxes(self):
         for textField in self.textFields:
-            textField.set_size_request(50,30)
-            self.hbox.pack_start(textField, True, False, 0)
+            textField.set_size_request(60,35)
+            textField.set_width_chars(4)
+            self.hbox.pack_start(textField, True, False, 5)
             textField.set_property("editable", False)
             textField.set_alignment(xalign = 0.5)
 	    textField.set_max_length(1)
+            textField.set_name("TypeBox_TextField")
             textField.show()
 
     def addWord(self, word):

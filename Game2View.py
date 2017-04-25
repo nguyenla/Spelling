@@ -31,7 +31,9 @@ class Game2View:
         self.skip.set_can_focus(False)
 
         self.next = Gtk.Button("NEXT LEVEL")
-        self.skip.set_can_focus(False)
+	self.next.set_name("Game2View_NextButton")
+	self.next.set_size_request(500,60)
+	self.next.set_can_focus(False)
 
         #Generate the necessary labels
         self.levelLabel = Gtk.Label("LEVEL 1")
@@ -96,6 +98,7 @@ class Game2View:
         self.button3Hbox.show()
         self.button4Hbox.show()
         self.skipHbox.show()
+	self.next.show()
         self.levelHbox.show()
         self.instructionLabel.show()
 
