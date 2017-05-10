@@ -1,61 +1,93 @@
-import pygtk
-pygtk.require('2.0')
-import gtk
-from RootView import RootView
+from gi.repository import Gtk
+from NavBar import NavBar
 from TypeBoxVert import TypeBoxVert
 
 class Game3View:
-    def __init__(self, window):
-        self.window = window
+    def __init__(self, parent):
+        
+	self.parent = parent
         #create the buttons for the game. Make sure you can't select them
-        self.skip = gtk.Button("SKIP")
+        self.skip = Gtk.Button("SKIP")
         self.skip.set_can_focus(False)
-        self.word1 = gtk.Button("word1")
+	self.skip.set_size_request(500,60)
+	self.skip.set_name("Game3View_SkipButton")
+
+        self.word1 = Gtk.Button("word1")
         self.word1.set_can_focus(False)
-        self.word2 = gtk.Button("word2")
+    	self.word1.set_size_request(500,60)
+    	self.word1.set_name("Game3View_WordButton")
+
+        self.word2 = Gtk.Button("word2")
         self.word2.set_can_focus(False)
-        self.word3 = gtk.Button("word3")
+        self.word2.set_size_request(500,60)
+        self.word2.set_name("Game3View_WordButton")
+
+        self.word3 = Gtk.Button("word3")
         self.word3.set_can_focus(False)
-        self.word4 = gtk.Button("word4")
+        self.word3.set_size_request(500,60)
+        self.word3.set_name("Game3View_WordButton")
+
+        self.word4 = Gtk.Button("word4")
         self.word4.set_can_focus(False)
-        self.word5 = gtk.Button("word5")
+        self.word4.set_size_request(500,60)
+        self.word4.set_name("Game3View_WordButton")
+
+        self.word5 = Gtk.Button("word5")
         self.word5.set_can_focus(False)
+        self.word5.set_size_request(500,60)
+        self.word5.set_name("Game3View_WordButton")
 
 	    #create the labels for the game
-        self.definition = gtk.Label("Definition: ")
-        self.def1 = gtk.Label("def1")
-        self.label = gtk.Label("LEVEL 1")
-        self.scoreLabel = gtk.Label("SCORE: 0")
-        self.resultLabel = gtk.Label("")
-        self.skipLabel = gtk.Label("Skips left: 0")
-        #create a vertical box and add it to the window
-        self.vbox = gtk.VBox(False, 0)
-        self.window.add(self.vbox)
+        self.def1 = Gtk.Label("def1")
+
+        self.label = Gtk.Label("LEVEL 1")
+        self.label.set_size_request(200,50)
+        self.label.set_name("Game3View_LevelLabel")
+
+        self.scoreLabel = Gtk.Label("SCORE: 0")
+        self.scoreLabel.set_size_request(200,50)
+        self.scoreLabel.set_name("Game3View_ScoreLabel")
+
+        self.resultLabel = Gtk.Label("")
+        self.skipLabel = Gtk.Label("Skips left: 0")
+        
+	#create a vertical box and add it to the window
+        self.vbox = Gtk.VBox(False, 0)
         self.vbox.show()
+
+	self.navBar = NavBar(True)
+        self.vbox.pack_start(self.navBar, False, False, 0)
+
+        self.button1Hbox = Gtk.Alignment(xscale = 0.0, yscale=1.0)
+        self.button2Hbox = Gtk.Alignment(xscale = 0.0, yscale=1.0)
+        self.button3Hbox = Gtk.Alignment(xscale = 0.0, yscale=1.0)
+        self.button4Hbox = Gtk.Alignment(xscale = 0.0, yscale=1.0)
+        self.button5Hbox = Gtk.Alignment(xscale = 0.0, yscale=1.0)
+        self.skipHbox = Gtk.Alignment(xscale = 0.0, yscale=1.0)
+        self.levelHbox = Gtk.HBox(False, 0)
+
+        self.button1Hbox.add(self.word1)
+        self.button2Hbox.add(self.word2)
+        self.button3Hbox.add(self.word3)
+        self.button4Hbox.add(self.word4)
+        self.button5Hbox.add(self.word5)
+        self.levelHbox.pack_start(self.label, False, False, 0)
+        self.levelHbox.pack_end(self.scoreLabel, False, False, 0)
+	self.skipHbox.add(self.skip)
 
 	    #put the horizontal box in the vertical box. This allows for proper
         #placement of the defintion on the screen
-        self.vbox.pack_start(self.label, True, True, 0)
-        self.hbox2 = gtk.HBox(False,0)
-        self.hbox2.pack_start(self.definition, False, False, 0)
-        self.hbox2.pack_start(self.def1, False, False,0)
-        self.vbox.add(self.hbox2)
+        self.vbox.pack_start(self.levelHbox, False, False, 0)
+        self.vbox.add(self.def1)
         #stacks the word buttons and result label vertically on the screen,
-        self.vbox.pack_start(self.word1, False, False, 0)
-        self.vbox.pack_start(self.word2, False, False, 0)
-        self.vbox.pack_start(self.word3, False, False, 0)
-        self.vbox.pack_start(self.word4, False, False, 0)
-        self.vbox.pack_start(self.word5, False, False, 0)
+        self.vbox.pack_start(self.button1Hbox, False, False, 0)
+        self.vbox.pack_start(self.button2Hbox, False, False, 5)
+        self.vbox.pack_start(self.button3Hbox, False, False, 0)
+        self.vbox.pack_start(self.button4Hbox, False, False, 5)
+        self.vbox.pack_start(self.button5Hbox, False, False, 0)
         self.vbox.pack_start(self.resultLabel, True, True, 0)
-        #puts the score label, skip button, and skipLabel horizontally at the
-        #bottom of the vertical box
-        self.hbox = gtk.HBox(False, 0)
-        self.hbox.pack_start(self.scoreLabel, True, True, 0)
-        self.hbox.pack_start(self.skip, True, True, 0)
-        self.hbox.pack_start(self.skipLabel, True, True, 0)
-        self.vbox.add(self.hbox)
-        self.hbox2.show()
-        self.hbox.show()
+
+        self.vbox.add(self.skipHbox)
 
         # Makes everything visible on the screen
         self.skip.show()
@@ -64,16 +96,17 @@ class Game3View:
         self.word3.show()
         self.word4.show()
         self.word5.show()
-        self.definition.show()
+        self.button1Hbox.show()
+        self.button2Hbox.show()
+        self.button3Hbox.show()
+        self.button4Hbox.show()
+        self.button5Hbox.show()
         self.def1.show()
         self.label.show()
         self.scoreLabel.show()
         self.resultLabel.show()
         self.skipLabel.show()
+	self.levelHbox.show()
+	self.skipHbox.show()
 
-        self.window.show()
-
-    def main(self):
-        # All PyGTK applications must have a gtk.main(). Control ends here
-        # and waits for an event to occur (like a key press or mouse event).
-        gtk.main()
+        self.parent.set_canvas(self.vbox)

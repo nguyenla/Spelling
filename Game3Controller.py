@@ -1,19 +1,19 @@
 #!/usr/bin/env python
 
-import pygtk
-pygtk.require('2.0')
-import gtk
 import os
 from Game3View import Game3View
-from RootView import RootView
-import sys
 from HomeView import HomeView
+import HomeController
+import sys
+from gi.repository import Gtk
+from gi.repository import Gdk
 from random import randint
 from random import shuffle
 
 class Game3Controller:
-    def __init__(self, view):
+    def __init__(self, view, parent):
         self.view = view
+	self.parent = parent
         #calls the proper method when the button is clicked
         self.view.skip.connect_object("clicked", self.skip_press, "SKIP")
         self.view.word1.connect_object("clicked", self.check_correct, "0")
@@ -21,7 +21,7 @@ class Game3Controller:
     	self.view.word3.connect_object("clicked", self.check_correct, "2")
     	self.view.word4.connect_object("clicked", self.check_correct, "3")
         self.view.word5.connect_object("clicked", self.check_correct, "4")
-        self.view.vbox.connect('expose-event', self.addImage)
+        self.back_button_signal = self.view.navBar.button.connect("clicked", self.home_page)
 
         # Fields of the controller
         self.numGuesses = 1
@@ -37,7 +37,7 @@ class Game3Controller:
         self.isNext = False
         self.gotPoints = False
         self.nextLevel = False
-        self.view.skipLabel.set_text("Skips left:" + str(self.skipsLeft))
+        self.view.skip.set_label("SKIP\n(" + str(self.skipsLeft) + " Left)")
         self.generate_level()
 
     #loads the words and definitions, then sets up the level
@@ -51,7 +51,7 @@ class Game3Controller:
     #to false. Sets up the words to display on the buttons and definition to display
     def make_round(self):
         self.view.resultLabel.set_text("")
-        self.view.skip.set_label("SKIP")
+        self.view.skip.set_label("SKIP\n(" + str(self.skipsLeft) + " Left)")
         self.numGuesses = 1
         self.gotPoints = False
         self.roundList = []
@@ -67,7 +67,7 @@ class Game3Controller:
                 self.picked.append(x)
 
         shuffle(self.picked)
-        self.view.def1.set_text(self.definitions[self.picked[0]])
+        self.view.def1.set_markup("<span size='14000'><b> Definition: " + self.definitions[self.picked[0]] + "</b></span>")
         self.view.word1.set_label(self.roundList[0])
         self.view.word2.set_label(self.roundList[1])
         self.view.word3.set_label(self.roundList[2])
@@ -85,7 +85,7 @@ class Game3Controller:
             self.make_round()
             self.skipsLeft = self.skipsLeft - 1
             self.totalScore +=10
-            self.view.skipLabel.set_text("Skips left:" + str(self.skipsLeft))
+            self.view.skip.set_label("SKIP\n(" + str(self.skipsLeft) + " Left)")
         else:
             self.view.resultLabel.set_text("No Skips Left!")
         if self.nextLevel:
@@ -97,7 +97,6 @@ class Game3Controller:
             self.view.word3.show()
             self.view.word4.show()
             self.view.word5.show()
-            self.view.definition.show()
             self.view.def1.show()
             self.generate_level()
     #if def matches word, updates variables accordingly and deletes the word and def from the array
@@ -106,11 +105,11 @@ class Game3Controller:
         #checks if number matches the number at int(widget) index
         if self.numGuesses == 0:
             self.endLevel()
-            self.view.label.set_text("Incorrect. Too many guesses")
+            self.view.label.set_markup("<span size='10000'><b>Incorrect. Too many guesses</b></span>")
             self.skipsLeft += 1
             #self.nextLevel = False
         if self.picked[0] == self.def_array[int(widget)] and self.isNext==False:
-            self.view.resultLabel.set_text("CORRECT!")
+            self.view.resultLabel.set_markup("<span size='10000'><b>CORRECT!</b></span>")
             self.updateScore(10)
             self.view.skip.set_label("NEXT")
             self.isNext = True
@@ -120,7 +119,7 @@ class Game3Controller:
         else:
             if self.gotPoints == False:
                 if self.numGuesses > 0:
-                    self.view.resultLabel.set_text("INCORRECT! " + str(self.numGuesses) + " left.")
+                    self.view.resultLabel.set_markup("<span size='10000'><b>INCORRECT! " + str(self.numGuesses) + " left.</b></span>")
                 self.numGuesses -= 1
         #the player answered enough correctly to move on.
         if len(self.definitions) <= 5:
@@ -135,7 +134,6 @@ class Game3Controller:
         self.view.word3.hide()
         self.view.word4.hide()
         self.view.word5.hide()
-        self.view.definition.hide()
         #need the self.level-1 since we already incremented it
         self.view.label.set_text("Level " +str(self.level-1) + " completed. You have scored " + str(self.score) + " out of " + str(self.totalScore) + " points.")
         self.view.def1.hide()
@@ -166,33 +164,6 @@ class Game3Controller:
         self.score += increment
         self.view.scoreLabel.set_text("SCORE: " + str(self.score))
 
-
-#General Methods
-    def addImage(self, widget, event):
-        path = "background.jpg"
-        pixbuf = gtk.gdk.pixbuf_new_from_file(path)
-        widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL], pixbuf, 0, 0, 0,0)
-
-    def delete_event(self, widget, event, data=None):
-        # If you return FALSE in the "delete_event" signal handler,
-        # GTK will emit the "destroy" signal. Returning TRUE means
-        # you don't want the window to be destroyed.
-        # This is useful for popping up 'are you sure you want to quit?'
-        # type dialogs.
-        print "delete event occurred"
-
-        # Change FALSE to TRUE and the main window will not be destroyed
-        # with a "delete_event".
-        return False
-
-    def destroy(self, widget, data=None):
-        print "destroy signal occurred"
-        gtk.main_quit()
-
-
-def main():
-    game = Game2Controller()
-    gtk.main()
-
-
-if __name__ == "__main__": main()
+    def home_page(self, button):
+        self.view = HomeView(self.parent)
+        self.controller = HomeController.HomeController(self.view, self.parent)

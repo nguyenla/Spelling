@@ -3,22 +3,20 @@
 # This class created the required number of textfields based
 # on the number of characters in a given word.
 
-import pygtk
-pygtk.require('2.0')
-import gtk
+from gi.repository import Gtk
 import re
 
-class TypeBoxVert(gtk.VBox):
+class TypeBoxVert(Gtk.VBox):
     def __init__(self):
 
         # Call init method for superclass
-        gtk.VBox.__init__(self)
+        Gtk.VBox.__init__(self)
 
         # Array to hold textFields
         self.textFields = []
 
         # vBox holds all the textFields
-        self.vbox = gtk.VBox(False, 0)
+        self.vbox = Gtk.VBox(False, 0)
         self.vbox.show()
 
 
@@ -28,7 +26,7 @@ class TypeBoxVert(gtk.VBox):
         self.numBoxes = size
         requiredCount = self.resetContent()
         for index in range(requiredCount):
-            self.textFields.append(gtk.Entry(max=1))
+            self.textFields.append(Gtk.Entry())
 
         # disable the highlighting of the boxes
         for box in self.textFields:
@@ -60,6 +58,7 @@ class TypeBoxVert(gtk.VBox):
             self.vbox.pack_start(textField, False, False, 0)
             textField.set_property("editable", False)
             textField.set_alignment(xalign = 0.5)
+	    textField.set_max_length(1)
             textField.show()
 
     def addWord(self, word):
@@ -71,14 +70,3 @@ class TypeBoxVert(gtk.VBox):
     def resetTextBox(self):
         for textField in self.textFields:
             textField.set_text("")
-
-    def main(self):
-        # All PyGTK applications must have a gtk.main(). Control ends here
-        # and waits for an event to occur (like a key press or mouse event).
-        gtk.main()
-
-# If the program is run directly or passed as an argument to the python
-# interpreter then create a HelloWorld instance and show it
-if __name__ == "__main__":
-    typeBox = TypeBox()
-    typeBox.main()

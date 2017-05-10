@@ -98,8 +98,8 @@ class Game2View:
         self.button3Hbox.show()
         self.button4Hbox.show()
         self.skipHbox.show()
+	self.levelHbox.show()
 	self.next.show()
-        self.levelHbox.show()
         self.instructionLabel.show()
 
         parent.set_canvas(self.vbox)

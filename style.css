@@ -145,3 +145,36 @@
 	border-radius: 2px;
 	font: Sans 20;
 }
+
+#Game3View_WordButton{
+	background: #2F343F;
+	border-radius: 2px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+}
+#Game3View_LevelLabel{
+	background-color: #000000;
+	border-radius: 0px;
+	border-width: 0px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+	color: #FFFFFF;
+}
+
+#Game3View_ScoreLabel{
+	background-color: #000000;
+	border-radius: 0px;
+	border-width: 0px;
+	box-shadow: 0 0 0 0;
+	font-size: 13px;
+	color: #FFFFFF;
+}
+
+#Game3View_SkipButton{
+	background: #2F343F;
+	border-radius: 15px;
+	border-width: 2px;
+	box-shadow: 0 0 0 0;
+	font-size: 15px;
+}
